@@ -5,30 +5,26 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,
-  Dimensions,
 } from 'react-native';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
-import PhoneMockup from '../components/PhoneMockup';
+import Onboarding2Mockup from '../components/Onboarding2Mockup';
 import { COLORS } from '../constants/colors';
 
-const { height, width } = Dimensions.get('window');
-
-export default function OnboardingScreen() {
+export default function Onboarding2Screen({ onNext, onPrev, onSkip, onSelectStep }) {
   return (
     <View style={styles.container}>
       <ExpoStatusBar style="dark" />
       <SafeAreaView style={styles.safeArea}>
         {/* Mockup Showcase Section */}
         <View style={styles.mockupSection}>
-          <PhoneMockup />
+          <Onboarding2Mockup />
         </View>
 
         {/* Bottom Curved Sheet Card */}
         <View style={styles.bottomCard}>
           {/* Main Title */}
           <Text style={styles.title}>
-            Explore Upcoming and{'\n'}Nearby Events
+            Web Have Modern Events{'\n'}Calendar Feature
           </Text>
 
           {/* Description Subtitle */}
@@ -39,19 +35,37 @@ export default function OnboardingScreen() {
           {/* Bottom Actions Row: Skip, Dots, Next */}
           <View style={styles.bottomActionsRow}>
             {/* Skip Button */}
-            <TouchableOpacity activeOpacity={0.7} style={styles.navButton}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.navButton}
+              onPress={onSkip}
+            >
               <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
 
-            {/* Pagination Indicators (3 Dots) */}
+            {/* Pagination Indicators (3 Dots - Dot 2 Active) */}
             <View style={styles.paginationContainer}>
+              <TouchableOpacity
+                onPress={() => onSelectStep && onSelectStep(1)}
+                activeOpacity={0.8}
+              >
+                <View style={[styles.dot, styles.inactiveDot]} />
+              </TouchableOpacity>
               <View style={[styles.dot, styles.activeDot]} />
-              <View style={[styles.dot, styles.inactiveDot]} />
-              <View style={[styles.dot, styles.inactiveDot]} />
+              <TouchableOpacity
+                onPress={() => onSelectStep && onSelectStep(3)}
+                activeOpacity={0.8}
+              >
+                <View style={[styles.dot, styles.inactiveDot]} />
+              </TouchableOpacity>
             </View>
 
             {/* Next Button */}
-            <TouchableOpacity activeOpacity={0.7} style={styles.navButton}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.navButton}
+              onPress={onNext}
+            >
               <Text style={styles.nextText}>Next</Text>
             </TouchableOpacity>
           </View>
@@ -74,14 +88,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 8,
     overflow: 'hidden',
   },
   bottomCard: {
     backgroundColor: COLORS.primary,
     borderTopLeftRadius: 48,
     borderTopRightRadius: 48,
-    paddingTop: 40,
+    paddingTop: 36,
     paddingBottom: 36,
     paddingHorizontal: 36,
     alignItems: 'center',
@@ -104,7 +118,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
     lineHeight: 22,
-    marginTop: 16,
+    marginTop: 14,
     paddingHorizontal: 10,
   },
   bottomActionsRow: {
@@ -112,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 40,
+    marginTop: 36,
     paddingHorizontal: 4,
   },
   navButton: {
@@ -142,9 +156,6 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: '#FFFFFF',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
   },
   inactiveDot: {
     backgroundColor: 'rgba(255, 255, 255, 0.35)',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Svg, { Path, Circle, Rect, G, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
-import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { COLORS } from '../constants/colors';
 
 // Vector illustration for the Jazz Day event card
@@ -76,7 +76,7 @@ const JazzIllustration = () => (
   </Svg>
 );
 
-export default function PhoneMockup() {
+export default function Onboarding1Mockup() {
   return (
     <View style={styles.phoneFrame}>
       {/* Top Notch / Speaker */}
