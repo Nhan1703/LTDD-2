@@ -3,9 +3,10 @@ import SplashScreen from './src/screens/SplashScreen';
 import Onboarding1Screen from './src/screens/Onboarding1Screen';
 import Onboarding2Screen from './src/screens/Onboarding2Screen';
 import Onboarding3Screen from './src/screens/Onboarding3Screen';
+import SignInScreen from './src/screens/SignInScreen';
 
 export default function App() {
-  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3'
+  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin'
   const [currentScreen, setCurrentScreen] = useState('splash');
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function App() {
     return (
       <Onboarding1Screen
         onNext={() => setCurrentScreen('onboarding2')}
-        onSkip={() => setCurrentScreen('onboarding3')}
+        onSkip={() => setCurrentScreen('signin')}
         onSelectStep={(step) => {
           if (step === 2) setCurrentScreen('onboarding2');
           if (step === 3) setCurrentScreen('onboarding3');
@@ -42,7 +43,7 @@ export default function App() {
       <Onboarding2Screen
         onPrev={() => setCurrentScreen('onboarding1')}
         onNext={() => setCurrentScreen('onboarding3')}
-        onSkip={() => setCurrentScreen('onboarding3')}
+        onSkip={() => setCurrentScreen('signin')}
         onSelectStep={(step) => {
           if (step === 1) setCurrentScreen('onboarding1');
           if (step === 3) setCurrentScreen('onboarding3');
@@ -56,8 +57,8 @@ export default function App() {
     return (
       <Onboarding3Screen
         onPrev={() => setCurrentScreen('onboarding2')}
-        onNext={() => setCurrentScreen('onboarding1')}
-        onSkip={() => setCurrentScreen('onboarding1')}
+        onNext={() => setCurrentScreen('signin')}
+        onSkip={() => setCurrentScreen('signin')}
         onSelectStep={(step) => {
           if (step === 1) setCurrentScreen('onboarding1');
           if (step === 2) setCurrentScreen('onboarding2');
@@ -66,5 +67,29 @@ export default function App() {
     );
   }
 
+  // Màn Sign In (Đăng nhập)
+  if (currentScreen === 'signin') {
+    return (
+      <SignInScreen
+        onSignIn={(data) => {
+          console.log('Sign in pressed:', data);
+        }}
+        onSignUp={() => {
+          console.log('Navigate to Sign Up');
+        }}
+        onForgotPassword={() => {
+          console.log('Forgot password pressed');
+        }}
+        onGoogleSignIn={() => {
+          console.log('Google login pressed');
+        }}
+        onFacebookSignIn={() => {
+          console.log('Facebook login pressed');
+        }}
+      />
+    );
+  }
+
   return <SplashScreen />;
 }
+
