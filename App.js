@@ -4,9 +4,10 @@ import Onboarding1Screen from './src/screens/Onboarding1Screen';
 import Onboarding2Screen from './src/screens/Onboarding2Screen';
 import Onboarding3Screen from './src/screens/Onboarding3Screen';
 import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 export default function App() {
-  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin'
+  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin' -> 'signup'
   const [currentScreen, setCurrentScreen] = useState('splash');
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export default function App() {
           console.log('Sign in pressed:', data);
         }}
         onSignUp={() => {
-          console.log('Navigate to Sign Up');
+          setCurrentScreen('signup');
         }}
         onForgotPassword={() => {
           console.log('Forgot password pressed');
@@ -85,6 +86,25 @@ export default function App() {
         }}
         onFacebookSignIn={() => {
           console.log('Facebook login pressed');
+        }}
+      />
+    );
+  }
+
+  // Màn Sign Up (Đăng ký)
+  if (currentScreen === 'signup') {
+    return (
+      <SignUpScreen
+        onBack={() => setCurrentScreen('signin')}
+        onSignIn={() => setCurrentScreen('signin')}
+        onSignUp={(data) => {
+          console.log('Sign up pressed:', data);
+        }}
+        onGoogleSignUp={() => {
+          console.log('Google signup pressed');
+        }}
+        onFacebookSignUp={() => {
+          console.log('Facebook signup pressed');
         }}
       />
     );
