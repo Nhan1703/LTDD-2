@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { COLORS } from '../constants/colors';
 
-export default function EventHubLogo({ size = 56, vertical = false, textColor }) {
+export default function EventHubLogo({ size = 70, vertical = false, textColor }) {
   const iconSize = size;
   const fontSize = size * 0.7;
 
@@ -36,10 +36,14 @@ export default function EventHubLogo({ size = 56, vertical = false, textColor })
     );
   }
 
+  // Tỷ lệ cho logo hàng ngang: cắt sát viewBox để chữ 'e' và 'ventHub' liền mạch nhau
+  const glyphHeight = size * 0.78;
+  const glyphWidth = (glyphHeight * 43.5) / 44.5;
+
   return (
     <View style={styles.container}>
-      {/* Stylized 'e' Logo Glyph */}
-      <Svg width={iconSize} height={iconSize} viewBox="0 0 60 60" fill="none">
+      {/* Stylized 'e' Logo Glyph - cắt sát lề giúp loại bỏ khoảng trắng trống bên phải */}
+      <Svg width={glyphWidth} height={glyphHeight} viewBox="6 5 43.5 44.5" fill="none">
         {/* Outer Circular 'C' arc in Royal Blue */}
         <Path
           d="M44 20C41.5 13.5 35.5 9 28.5 9C18.3 9 10 17.3 10 27.5C10 37.7 18.3 46 28.5 46C36.2 46 42.8 41.3 45.3 34.5"
@@ -79,7 +83,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 6,
+    marginLeft: 3,
   },
   textVent: {
     color: COLORS.primary,

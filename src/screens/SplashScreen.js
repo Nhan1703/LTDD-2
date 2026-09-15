@@ -32,7 +32,7 @@ export default function SplashScreen() {
 
       {/* Center Logo */}
       <View style={styles.logoWrapper}>
-        <EventHubLogo size={56} />
+        <EventHubLogo size={70} />
       </View>
     </View>
   );

@@ -5,10 +5,13 @@ import Onboarding2Screen from './src/screens/Onboarding2Screen';
 import Onboarding3Screen from './src/screens/Onboarding3Screen';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
+import VerificationScreen from './src/screens/VerificationScreen';
 
 export default function App() {
-  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin' -> 'signup'
+  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin' -> 'signup' -> 'resetPassword' -> 'verification'
   const [currentScreen, setCurrentScreen] = useState('splash');
+  const [resetEmail, setResetEmail] = useState('abc@email.com');
 
   useEffect(() => {
     // Tự động chuyển từ Màn Splash sang Màn Onboarding 1 sau 2.5 giây
@@ -79,7 +82,7 @@ export default function App() {
           setCurrentScreen('signup');
         }}
         onForgotPassword={() => {
-          console.log('Forgot password pressed');
+          setCurrentScreen('resetPassword');
         }}
         onGoogleSignIn={() => {
           console.log('Google login pressed');
@@ -105,6 +108,36 @@ export default function App() {
         }}
         onFacebookSignUp={() => {
           console.log('Facebook signup pressed');
+        }}
+      />
+    );
+  }
+
+  // Màn Reset Password (Quên mật khẩu)
+  if (currentScreen === 'resetPassword') {
+    return (
+      <ResetPasswordScreen
+        initialEmail={resetEmail}
+        onBack={() => setCurrentScreen('signin')}
+        onSend={(email) => {
+          setResetEmail(email);
+          setCurrentScreen('verification');
+        }}
+      />
+    );
+  }
+
+  // Màn Verification (Xác thực mã OTP)
+  if (currentScreen === 'verification') {
+    return (
+      <VerificationScreen
+        email={resetEmail}
+        onBack={() => setCurrentScreen('resetPassword')}
+        onContinue={(otp) => {
+          console.log('OTP confirmed:', otp);
+        }}
+        onResend={() => {
+          console.log('Resend OTP code');
         }}
       />
     );
