@@ -7,20 +7,24 @@ import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import VerificationScreen from './src/screens/VerificationScreen';
+import MainDrawerContainer from './src/screens/MainDrawerContainer';
 
 export default function App() {
-  // Navigation State: 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin' -> 'signup' -> 'resetPassword' -> 'verification'
+  // Trạng thái điều hướng luồng màn hình theo đúng thứ tự:
+  // 'splash' -> 'onboarding1' -> 'onboarding2' -> 'onboarding3' -> 'signin' -> 'signup' -> 'resetPassword' -> 'verification' -> 'main' (Home & MenuWhite Drawer)
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [resetEmail, setResetEmail] = useState('abc@email.com');
 
   useEffect(() => {
     // Tự động chuyển từ Màn Splash sang Màn Onboarding 1 sau 2.5 giây
-    const timer = setTimeout(() => {
-      setCurrentScreen('onboarding1');
-    }, 2500);
+    if (currentScreen === 'splash') {
+      const timer = setTimeout(() => {
+        setCurrentScreen('onboarding1');
+      }, 2500);
 
-    return () => clearTimeout(timer);
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [currentScreen]);
 
   // Màn Splash Screen (Logo EventHub)
   if (currentScreen === 'splash') {
@@ -77,6 +81,8 @@ export default function App() {
       <SignInScreen
         onSignIn={(data) => {
           console.log('Sign in pressed:', data);
+          // Điều hướng đến Trang Chủ (Main Drawer gồm Home và MenuWhite)
+          setCurrentScreen('main');
         }}
         onSignUp={() => {
           setCurrentScreen('signup');
@@ -86,9 +92,11 @@ export default function App() {
         }}
         onGoogleSignIn={() => {
           console.log('Google login pressed');
+          setCurrentScreen('main');
         }}
         onFacebookSignIn={() => {
           console.log('Facebook login pressed');
+          setCurrentScreen('main');
         }}
       />
     );
@@ -102,12 +110,15 @@ export default function App() {
         onSignIn={() => setCurrentScreen('signin')}
         onSignUp={(data) => {
           console.log('Sign up pressed:', data);
+          setCurrentScreen('main');
         }}
         onGoogleSignUp={() => {
           console.log('Google signup pressed');
+          setCurrentScreen('main');
         }}
         onFacebookSignUp={() => {
           console.log('Facebook signup pressed');
+          setCurrentScreen('main');
         }}
       />
     );
@@ -135,6 +146,8 @@ export default function App() {
         onBack={() => setCurrentScreen('resetPassword')}
         onContinue={(otp) => {
           console.log('OTP confirmed:', otp);
+          // Xác thực thành công -> vào Trang Chủ
+          setCurrentScreen('main');
         }}
         onResend={() => {
           console.log('Resend OTP code');
@@ -143,6 +156,17 @@ export default function App() {
     );
   }
 
+  // Màn Main: Tích hợp Home Screen và Menu White (Drawer Side Menu 3D)
+  if (currentScreen === 'main') {
+    return (
+      <MainDrawerContainer
+        onSignOut={() => {
+          // Đăng xuất -> quay lại màn hình Sign In
+          setCurrentScreen('signin');
+        }}
+      />
+    );
+  }
+
   return <SplashScreen />;
 }
-
